@@ -12,6 +12,7 @@ import {
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { EmojiEmotions } from "@mui/icons-material";
+import { Games as GamesIcon } from "@mui/icons-material";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import HotelIcon from "@mui/icons-material/Hotel";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
@@ -19,6 +20,7 @@ import Dashboard from "./pages/Dashboard";
 import { useState } from "react";
 import Quotes from "./pages/Quotes";
 import Emojis from "./pages/Emojis";
+import Games from "./pages/Games";
 
 const drawerWidth = 240;
 
@@ -30,9 +32,9 @@ const emojiTypes = [
 ];
 
 function App() {
-  const [page, setPage] = useState<"dashboard" | "quotes_config" | "emojis">(
-    "dashboard"
-  );
+  const [page, setPage] = useState<
+    "dashboard" | "quotes_config" | "emojis" | "games"
+  >("dashboard");
   const [emojiType, setEmojiType] = useState("default");
 
   const renderPage = () => {
@@ -43,13 +45,15 @@ function App() {
         return <Quotes />;
       case "emojis":
         return <Emojis emojiType={emojiType} />;
+      case "games":
+        return <Games />;
       default:
         return null;
     }
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", overflow: "hidden" }}>
       {/* App Bar */}
       <AppBar
         position="fixed"
@@ -85,6 +89,7 @@ function App() {
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
           </ListItemButton>
+
           <ListItemButton
             selected={page === "quotes_config"}
             onClick={() => setPage("quotes_config")}
@@ -108,13 +113,30 @@ function App() {
               <ListItemText primary={et.label} />
             </ListItemButton>
           ))}
+
+          <ListItemButton
+            selected={page === "games"}
+            onClick={() => setPage("games")}
+          >
+            <ListItemIcon>
+              <GamesIcon />
+            </ListItemIcon>
+            <ListItemText primary="Games" />
+          </ListItemButton>
         </List>
       </Drawer>
 
       {/* Main Content */}
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, mt: 8, ml: `${drawerWidth}px` }}
+        sx={{
+          flexGrow: 1,
+          mt: "64px",
+          ml: `${drawerWidth}px`,
+          height: "calc(100vh - 64px)",
+          display: "flex",
+          flexDirection: "column",
+        }}
       >
         {renderPage()}
       </Box>

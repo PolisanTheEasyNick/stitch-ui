@@ -1,4 +1,3 @@
-// src/pages/Emojis.tsx
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -180,10 +179,9 @@ export default function Emojis({ emojiType }: EmojisProps) {
       sx={{
         display: "flex",
         flexDirection: "column",
-        minHeight: "80vh",
-        padding: 4,
-        boxSizing: "border-box",
-        backgroundColor: "transparent",
+        justifyContent: "space-between",
+        p: 4,
+        height: "100%",
         color: "white",
         "& .MuiTypography-root": { color: "white" },
         "& .MuiListItemText-primary": { color: "white" },
