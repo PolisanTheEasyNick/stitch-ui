@@ -1,4 +1,3 @@
-// src/pages/Quotes.tsx
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -14,8 +13,9 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { NavigateBefore, NavigateNext, LastPage } from "@mui/icons-material";
+import { apiUrl } from "../api";
 
-const API_URL = "https://api.polisan.dev/config/quotes";
+const API_URL = apiUrl("/config/quotes");
 
 export default function Quotes() {
   const [quotes, setQuotes] = useState<string[]>([]);
@@ -149,12 +149,10 @@ export default function Quotes() {
 
     setSaving(true);
     try {
-      // Delete removed quotes
       for (const index of deletedIndices) {
         await fetch(`${API_URL}/${index}`, { method: "DELETE" });
       }
 
-      // Edit changed quotes
       for (const [index, value] of editedQuotes.entries()) {
         await fetch(`${API_URL}/edit`, {
           method: "PATCH",
@@ -163,7 +161,6 @@ export default function Quotes() {
         });
       }
 
-      // Add new quotes
       for (const value of newQuotes) {
         await fetch(`${API_URL}/add`, {
           method: "PATCH",
@@ -173,7 +170,6 @@ export default function Quotes() {
       }
 
       alert("Quotes synced successfully!");
-      // Reload the data
       const res = await fetch(API_URL);
       const updated = await res.json();
       setQuotes(updated);
@@ -307,7 +303,7 @@ export default function Quotes() {
             userSelect: "none",
           }}
         >
-          Page {page + 1} /{" "}
+          Page {page + 1} / {" "}
           {Math.max(1, Math.ceil(quotes.length / quotesPerPage))}
         </Typography>
 

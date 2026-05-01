@@ -11,8 +11,9 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { NavigateBefore, NavigateNext, LastPage } from "@mui/icons-material";
+import { apiUrl } from "../api";
 
-const API_URL = "https://api.polisan.dev/config/games";
+const API_URL = apiUrl("/config/games");
 
 type GameItem = {
   steam_id: string;
@@ -191,14 +192,12 @@ export default function Games() {
         "& .MuiFormHelperText-root": { color: "white" },
       }}
     >
-      {/* Top title */}
       <Box>
         <Typography variant="h4" mb={2}>
           Games Configurator
         </Typography>
       </Box>
 
-      {/* Middle list content fills all space */}
       <Box
         sx={{
           flexGrow: 1,
@@ -314,7 +313,6 @@ export default function Games() {
         </List>
       </Box>
 
-      {/* Bottom section */}
       <Box sx={{ mt: 2 }}>
         <Box
           sx={{
@@ -349,7 +347,7 @@ export default function Games() {
             <NavigateBefore />
           </Button>
           <Typography>
-            Page {page + 1} /{" "}
+            Page {page + 1} / {" "}
             {Math.max(1, Math.ceil(games.length / gamesPerPage))}
           </Typography>
           <Button

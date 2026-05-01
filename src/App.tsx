@@ -11,16 +11,21 @@ import {
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import SettingsIcon from "@mui/icons-material/Settings";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { EmojiEmotions } from "@mui/icons-material";
 import { Games as GamesIcon } from "@mui/icons-material";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import HotelIcon from "@mui/icons-material/Hotel";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import Dashboard from "./pages/Dashboard";
 import { useState } from "react";
 import Quotes from "./pages/Quotes";
 import Emojis from "./pages/Emojis";
 import Games from "./pages/Games";
+import Piled from "./pages/Piled";
+import Imports from "./pages/Imports";
+import stitchLogo from "./stitch.svg";
 
 const drawerWidth = 240;
 
@@ -31,10 +36,16 @@ const emojiTypes = [
   { key: "walk", label: "Walk", icon: <DirectionsWalkIcon /> },
 ];
 
+type Page =
+  | "dashboard"
+  | "quotes_config"
+  | "emojis"
+  | "games"
+  | "light_config"
+  | "imports";
+
 function App() {
-  const [page, setPage] = useState<
-    "dashboard" | "quotes_config" | "emojis" | "games"
-  >("dashboard");
+  const [page, setPage] = useState<Page>("dashboard");
   const [emojiType, setEmojiType] = useState("default");
 
   const renderPage = () => {
@@ -47,6 +58,10 @@ function App() {
         return <Emojis emojiType={emojiType} />;
       case "games":
         return <Games />;
+      case "light_config":
+        return <Piled />;
+      case "imports":
+        return <Imports />;
       default:
         return null;
     }
@@ -54,19 +69,18 @@ function App() {
 
   return (
     <Box sx={{ display: "flex", overflow: "hidden" }}>
-      {/* App Bar */}
       <AppBar
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <Toolbar>
+          <img src={stitchLogo} alt="Stitch logo" style={{ height: 60 }} />
           <Typography variant="h6" noWrap>
             Stitch UI
           </Typography>
         </Toolbar>
       </AppBar>
 
-      {/* Permanent Side Drawer */}
       <Drawer
         variant="permanent"
         sx={{
@@ -75,7 +89,7 @@ function App() {
           [`& .MuiDrawer-paper`]: {
             width: drawerWidth,
             boxSizing: "border-box",
-            top: "64px", // Align below AppBar
+            top: "64px",
           },
         }}
       >
@@ -98,6 +112,26 @@ function App() {
               <SettingsIcon />
             </ListItemIcon>
             <ListItemText primary="Quotes" />
+          </ListItemButton>
+
+          <ListItemButton
+            selected={page === "light_config"}
+            onClick={() => setPage("light_config")}
+          >
+            <ListItemIcon>
+              <LightbulbIcon />
+            </ListItemIcon>
+            <ListItemText primary="Lights" />
+          </ListItemButton>
+
+          <ListItemButton
+            selected={page === "imports"}
+            onClick={() => setPage("imports")}
+          >
+            <ListItemIcon>
+              <UploadFileIcon />
+            </ListItemIcon>
+            <ListItemText primary="Imports" />
           </ListItemButton>
 
           {emojiTypes.map((et) => (
@@ -126,7 +160,6 @@ function App() {
         </List>
       </Drawer>
 
-      {/* Main Content */}
       <Box
         component="main"
         sx={{

@@ -11,8 +11,9 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { NavigateBefore, NavigateNext, LastPage } from "@mui/icons-material";
+import { apiUrl } from "../api";
 
-const API_URL = "https://api.polisan.dev/config/emoji";
+const API_URL = apiUrl("/config/emoji");
 
 interface EmojisProps {
   emojiType: string;
@@ -160,7 +161,7 @@ export default function Emojis({ emojiType }: EmojisProps) {
       }
 
       alert("Emojis synced successfully!");
-      const res = await fetch(API_URL + `?type=${emojiType}`);
+      const res = await fetch(`${API_URL}?type=${emojiType}`);
       const updated = await res.json();
       setEmojis(updated);
       setOriginalEmojis(updated);
@@ -278,7 +279,7 @@ export default function Emojis({ emojiType }: EmojisProps) {
         <Typography
           sx={{ alignSelf: "center", textAlign: "center", userSelect: "none" }}
         >
-          Page {page + 1} /{" "}
+          Page {page + 1} / {" "}
           {Math.max(1, Math.ceil(emojis.length / emojisPerPage))}
         </Typography>
 
